@@ -236,7 +236,7 @@ public class XSD2OWLMapper {
     public URI convertURNtoURI(String targetNamespace) throws URISyntaxException {
         String uriString = targetNamespace;
         if (targetNamespace.startsWith("urn:")) {
-            uriString = targetNamespace.replaceAll(":", "/");
+            uriString = targetNamespace.replace(":", "/");
             uriString = "http://www.urn.com/" + uriString;
         }
         return new URI(uriString);
@@ -273,16 +273,16 @@ public class XSD2OWLMapper {
             LOGGER.info("Main URI: {}", mainURI);
             Iterator<XSSimpleType> simpleTypes = schema.iterateSimpleTypes();
             while (simpleTypes.hasNext()) {
-                convertSimpleType(mainURI, (XSSimpleType) simpleTypes.next(), null);
+                convertSimpleType(mainURI, simpleTypes.next(), null);
             }
             Iterator<XSComplexType> complexTypes = schema.iterateComplexTypes();
             while (complexTypes.hasNext()) {
-                convertComplexType(mainURI, (XSComplexType) complexTypes.next(), null);
+                convertComplexType(mainURI, complexTypes.next(), null);
             }
     
             Iterator<XSElementDecl> elements = schema.iterateElementDecls();
             while (elements.hasNext()) {
-                convertElement(mainURI, (XSElementDecl) elements.next(), null);
+                convertElement(mainURI, elements.next());
             }
 
             Iterator<XSModelGroupDecl> groups = schema.iterateModelGroupDecls();
@@ -292,7 +292,7 @@ public class XSD2OWLMapper {
     
             Iterator<XSAttGroupDecl> attGroups = schema.iterateAttGroupDecls();
             while (attGroups.hasNext()) {
-                convertAttributeGroup(mainURI, (XSAttGroupDecl) attGroups.next());
+                convertAttributeGroup(mainURI, attGroups.next());
             }
     
             createDefaultTextPropertyForMixedClasses(mainURI);
@@ -313,22 +313,12 @@ public class XSD2OWLMapper {
             // TODO: Mustafa: Why would we define new simple types in the XSD namespace?
             // The following if should not evaluate to true...
             if (NS.equals(XSD.getURI())) {
-                // If element type is an XSD datatype
-                // An example case:
-                // <xs:element name="test" type="xs:string" />
-
-                // adds a nullDatatype
-                /*OntClass dataType = ontology.createOntResource(OntClass.class,
-                        RDFS.Datatype,
-                        parentURI + Constants.DATATYPE_SUFFIX);
-                        */
                 OntClass dataType = ontology.createOntResource(OntClass.class,
                     RDFS.Datatype,
                     URI + Constants.DATATYPE_SUFFIX);
                 Resource xsdResource = XSDUtil.getXSDResource(simple.getName());
                 
                 if (xsdResource !=null && !"nullDatatype".equals(dataType.toString())) {
-                    // Set super class to the element type
                     dataType.addSuperClass(xsdResource);
 
                     // Set Equivalent Datatype
@@ -444,8 +434,6 @@ public class XSD2OWLMapper {
 
         OntClass enumSuperClass = ontology.createClass(Constants.ONTMALIZER_ENUMERATION_CLASS_NAME);
         //This statement should be added, but there is no Enumeration resource in any vocabulary. Only in LinkedModel
-        //enumSuperClass.addSuperClass(DTYPE.Enumeration);
-        //Individual enumResource = ontology.createIndividual(URI + "_Enumeration", enumSuperClass);
         Individual enumResource = ontology.createIndividual(enumClass.getURI() + "_Enumeration", enumSuperClass);
 
         for (int i = 0, length = facets.enumeration.length; i < length; i++) {
@@ -564,7 +552,7 @@ public class XSD2OWLMapper {
 
             Iterator<? extends XSAttributeUse> attributeUses = complex.getAttributeUses().iterator();
             while (attributeUses.hasNext()) {
-                XSAttributeUse attributeUse = (XSAttributeUse) attributeUses.next();
+                XSAttributeUse attributeUse = attributeUses.next();
                 convertAttribute(mainURI, attributeUse, complexClass);
             }
         } else if (baseType.isComplexType()) {
@@ -618,14 +606,14 @@ public class XSD2OWLMapper {
 
             Iterator<? extends XSAttributeUse> attributeUses = complex.getDeclaredAttributeUses().iterator();
             while (attributeUses.hasNext()) {
-                XSAttributeUse attributeUse = (XSAttributeUse) attributeUses.next();
+                XSAttributeUse attributeUse = attributeUses.next();
                 convertAttribute(mainURI, attributeUse, complexClass);
             }
         }
 
         Iterator<? extends XSAttGroupDecl> attGroups = complex.iterateAttGroups();
         while (attGroups.hasNext()) {
-            XSAttGroupDecl attGroup = (XSAttGroupDecl) attGroups
+            XSAttGroupDecl attGroup =  attGroups
                     .next();
             OntClass attgClass = ontology.createClass(getURI(mainURI, attGroup));
             attgClass.addSubClass(complexClass);
@@ -642,7 +630,7 @@ public class XSD2OWLMapper {
         return complexClass;
     }
 
-    private void convertElement(String mainURI, XSElementDecl element, OntClass parent) {
+    private void convertElement(String mainURI, XSElementDecl element) {
         XSType elementType = element.getType();
         String URI = getURI(mainURI, element);
 
@@ -680,12 +668,10 @@ public class XSD2OWLMapper {
          * datatypes which do not fit the RDF datatype model.
          * http://mail-archives.apache.org/mod_mbox/jena-users/201206.mbox/%3CCAFq2biyPYPKt0mnsnEajqwrQjOYH_geaFbVXvOuVeeDVYDgs2A@mail.gmail.com%3E
          */
-        if (NS.equals(XSDDatatype.XSD)) {
-            if (attribute.getType().getName().equals("IDREFS")
-                    || attribute.getType().getName().equals("ENTITIES")
-                    || attribute.getType().getName().equals("NMTOKENS")) {
+        if (NS.equals(XSDDatatype.XSD) && (attribute.getType().getName().equals("IDREFS")
+        || attribute.getType().getName().equals("ENTITIES")
+        || attribute.getType().getName().equals("NMTOKENS"))) {
                 return;
-            }
         }
 
         // Mustafa: All simple types are datatype properties now!
@@ -768,7 +754,6 @@ public class XSD2OWLMapper {
                         LOGGER.trace("Main URI: {}, type target namespace: {}", mainURI, typeNS);
                         
                         //TODO is it correct to use the type namespace in all cases? There are at least some cases where this is necessary.  
-                        //Resource resource = ontology.createResource(getURI(mainURI, element.getType()));
                         Resource resource;
                         if ("".equals(typeNS)) {
                             LOGGER.debug("typeNS is empty string so using mainURI: {}", mainURI);
@@ -850,7 +835,7 @@ public class XSD2OWLMapper {
 
         Iterator<? extends XSAttributeUse> attributes = attGroup.iterateAttributeUses();
         while (attributes.hasNext()) {
-            convertAttribute(mainURI, (XSAttributeUse) attributes.next(), attgClass);
+            convertAttribute(mainURI, attributes.next(), attgClass);
         }
     }
 

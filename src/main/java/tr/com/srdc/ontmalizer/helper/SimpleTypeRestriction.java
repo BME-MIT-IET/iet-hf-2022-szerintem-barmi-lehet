@@ -99,7 +99,7 @@ public class SimpleTypeRestriction {
                 whiteSpace = facet.getValue().value;
             }
         }
-        if (en.size() > 0) {
+        if (!en.isEmpty()) {
             enumeration = en.toArray(new String[]{});
         }
     }

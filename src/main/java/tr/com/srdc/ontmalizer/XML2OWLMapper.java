@@ -78,7 +78,6 @@ public class XML2OWLMapper {
     private String baseURI = Constants.ONTMALIZER_INSTANCE_BASE_URI;
     private String baseNS = Constants.ONTMALIZER_INSTANCE_BASE_NS;
 
-//	private ArrayList<OntClass> abstractClasses 	= null;
     private ArrayList<OntClass> mixedClasses = null;
 
     private String NS = null;
@@ -161,7 +160,6 @@ public class XML2OWLMapper {
      */
     private void initializeEnvironment(XSD2OWLMapper mapping) {
         ontology = mapping.getOntology();
-//		abstractClasses = mapping.getAbstractClasses();
         mixedClasses = mapping.getMixedClasses();
 
         model = ModelFactory.createDefaultModel();
@@ -173,7 +171,7 @@ public class XML2OWLMapper {
         count = new HashMap<>();
         ResIterator it = ontology.listResourcesWithProperty(null);
         while (it.hasNext()) {
-            Resource resource = (Resource) it.next();
+            Resource resource = it.next();
             if (resource != null && resource.getURI() != null) {
                 count.put(resource.getURI(), 1);
             }
@@ -183,7 +181,7 @@ public class XML2OWLMapper {
         //Updated to use 'setNsPrefixes' since setNsPrefix is no longer a method in Jena 3.7
         // Import all the namespace prefixes to the model
         Map<String, String> nsmap = ontology.getBaseModel().getNsPrefixMap();
-        Map<String, String> newNsMap = new HashMap<String, String>();
+        Map<String, String> newNsMap = new HashMap<>();
         Iterator<String> keys = nsmap.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -348,7 +346,7 @@ public class XML2OWLMapper {
             // Check if mixed class
             Iterator<OntClass> it = mixedClasses.iterator();
             while (it.hasNext()) {
-                OntClass mixed = (OntClass) it.next();
+                OntClass mixed = it.next();
                 if (mixed.getURI().equals(subjectType.getURI())) {
                     break;
                 }
@@ -386,9 +384,8 @@ public class XML2OWLMapper {
         while (temp != null) {
             ExtendedIterator<OntClass> itres = temp.listSuperClasses();
             while (itres.hasNext()) {
-                OntClass rescl = (OntClass) itres.next();
-                if (rescl.isRestriction()) {
-                    if (rescl.asRestriction().isAllValuesFromRestriction()) {
+                OntClass rescl = itres.next();
+                if (rescl.isRestriction() && rescl.asRestriction().isAllValuesFromRestriction()) {
                         AllValuesFromRestriction avfres = rescl.asRestriction().asAllValuesFromRestriction();
                         /**
                          * In some cases, a resource can be both an object and
@@ -417,13 +414,12 @@ public class XML2OWLMapper {
                             result.setResource(avfres.getAllValuesFrom());
                             return result;
                         }
-                    }
                 }
             }
 
             ExtendedIterator<OntClass> it = temp.listSuperClasses();
             while (it.hasNext()) {
-                OntClass superCl = (OntClass) it.next();
+                OntClass superCl = it.next();
                 if (!superCl.isRestriction() && !superCl.isEnumeratedClass()) {
                     queue.add(superCl);
                 }
