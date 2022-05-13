@@ -21,6 +21,7 @@ public class NamingUtil {
 			sb.append(prefix).append(Character.toUpperCase(propName.charAt(0)))
 					.append(propName.substring(1));
 			return sb.toString();
+			
 		}
 	}
 	
