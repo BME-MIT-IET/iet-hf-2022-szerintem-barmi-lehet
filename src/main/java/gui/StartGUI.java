@@ -23,10 +23,10 @@ public class StartGUI extends JFrame {
 
     private JButton button = new JButton("Optimize!");
 
-    private Object[] type_MA = {"Simple", "Exponential"};
+    private transient Object[] type_MA = {"Simple", "Exponential"};
     private JComboBox<Object> cbox_TypeMA = new JComboBox(type_MA);
 
-    private Object[] optimCond = {"Net profit", "Winning ratio"};
+    private transient Object[] optimCond = {"Net profit", "Winning ratio"};
     private JComboBox<Object> cbox_optimCond = new JComboBox(optimCond);
 
 
@@ -90,19 +90,11 @@ public class StartGUI extends JFrame {
         pane.setLayout(new GridBagLayout());
         
         GridBagConstraints c = new GridBagConstraints();
-        boolean shouldFill = false;
-        if (shouldFill) {
-            //natural height, maximum width
-            c.fill = GridBagConstraints.HORIZONTAL;
-        }
 
 
         // 1. sor
         JLabel row1Lab = new JLabel("Gyors MA periódus: ", SwingConstants.RIGHT);
-        boolean shouldWeightX = true;
-        if (shouldWeightX) {
-            c.weightx = 2;
-        }
+        c.weightx = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
@@ -124,9 +116,7 @@ public class StartGUI extends JFrame {
 
         // 2. sor
         JLabel row2Lab = new JLabel("Közepes MA periódus: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 1;
-        }
+        c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
@@ -148,9 +138,7 @@ public class StartGUI extends JFrame {
 
         // 3. sor
         JLabel row3Lab = new JLabel("Lassú MA periódus: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 1;
-        }
+        c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
@@ -172,9 +160,7 @@ public class StartGUI extends JFrame {
 
         // 4. sor
         JLabel row4Lab = new JLabel("MA típusa: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 0.0;
-        }
+        c.weightx = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 3;
@@ -190,9 +176,7 @@ public class StartGUI extends JFrame {
 
         // 5. sor
         JLabel row5Lab = new JLabel("Optimalizálási kritérium: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 0.0;
-        }
+        c.weightx = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 1;
         c.gridx = 0;
