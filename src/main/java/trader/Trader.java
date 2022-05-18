@@ -5,7 +5,6 @@ import indicator.MovingAverage;
 import indicator.SimpleMA;
 import portfolio.Portfolio;
 import position.BuyPosition;
-import position.SellPosition;
 import tseries.TimeSeries;
 
 import java.time.LocalDateTime;
@@ -31,11 +30,10 @@ public class Trader {
     private TimeSeries priceSeries_H1 = new TimeSeries();
     private TimeSeries priceSeries_D1 = new TimeSeries();
 
-    private LocalDateTime startTime;
 
     private ArrayList<Map.Entry> sampleStart = new ArrayList<>();
 
-    private TreeMap<LocalDateTime, String> Signals = new TreeMap<>();
+    private TreeMap<LocalDateTime, String> signals = new TreeMap<>();
 
     private Portfolio myPortfolio;
 
@@ -57,7 +55,7 @@ public class Trader {
     public Trader() {}
 
 
-    public Trader(TimeSeries priceSeries, int fast, int mid, int slow, String type) throws Exception {
+    public Trader(TimeSeries priceSeries, int fast, int mid, int slow, String type) throws IllegalArgumentException {
 
         this.priceSeries_M15 = priceSeries;
 
@@ -101,7 +99,7 @@ public class Trader {
                 break;
 
             default:
-                Exception e = new Exception("Helytelen input érték");
+                IllegalArgumentException e = new IllegalArgumentException("Helytelen input érték");
                 throw e;
 
         }
@@ -120,28 +118,24 @@ public class Trader {
 
     // Indikátorok előkészítése
     public void prepareIndicators() {
-
+        String close = "Close";
         try {
 
             this.priceSeries_H1 = this.priceSeries_M15.convert("H1");
-            // System.out.println(this.priceSeries_H1.getLength());
 
             this.priceSeries_D1 = this.priceSeries_M15.convert("D1");
-            // System.out.println(this.priceSeries_D1.getLength());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
 
         // Calculate MA Values
-        MA_M15_Fast.calc(this.priceSeries_M15, "Close");
-        MA_M15_Slow.calc(this.priceSeries_M15, "Close");
+        MA_M15_Fast.calc(this.priceSeries_M15, close);
+        MA_M15_Slow.calc(this.priceSeries_M15, close);
 
-        MA_H1_Fast.calc(this.priceSeries_H1, "Close");
-        MA_H1_Slow.calc(this.priceSeries_H1, "Close");
+        MA_H1_Fast.calc(this.priceSeries_H1, close);
+        MA_H1_Slow.calc(this.priceSeries_H1, close);
 
-        MA_D1_Fast.calc(this.priceSeries_D1, "Close");
-        MA_D1_Slow.calc(this.priceSeries_D1, "Close");
+        MA_D1_Fast.calc(this.priceSeries_D1, close);
+        MA_D1_Slow.calc(this.priceSeries_D1, close);
 
 
     }
@@ -157,11 +151,6 @@ public class Trader {
 
         // LocalDateTime for D1 (M15 előtti teljes lezárt nap)
         LocalDateTime d1_startDate = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 00, 00);
-
-
-        double testSMA = this.MA_M15_Fast.getValues().get(m15_startDate);
-        //System.out.println(testSMA);
-        //sma_m15_fast.getValues().ceilingKey(200);
 
 
         // M15 idősíkon értelmezett iterátorok
@@ -206,18 +195,6 @@ public class Trader {
         Map.Entry entryMA_D1_slow = (Map.Entry) iterMA_D1_slow.next();
         this.sampleStart.add(entryMA_D1_slow);
 
-
-        /*
-        Map.Entry entryMA_M15_fast = this.sampleStart.get(0);
-        Map.Entry entryMA_M15_slow = this.sampleStart.get(1);
-
-        Map.Entry entryMA_H1_fast = this.sampleStart.get(2);
-        Map.Entry entryMA_H1_slow = this.sampleStart.get(3);
-
-        Map.Entry entryMA_D1_fast = this.sampleStart.get(4);
-        Map.Entry entryMA_D1_slow = this.sampleStart.get(5);
-        */
-
         LocalDateTime startDateTime = (LocalDateTime) entryMA_M15_fast.getKey();
 
         TimeSeries myPrice = this.priceSeries_M15;
@@ -230,7 +207,6 @@ public class Trader {
 
         int counter = 0;
         int crosses = 0;
-
         double oldM15_fast = 99.9; // elsőre ne legyen jelzés!
         double oldM15_slow = 0.01; //
 
@@ -250,15 +226,11 @@ public class Trader {
             if( (counter % 4) == 3 ) {
                 entryMA_H1_fast = (Map.Entry) iterMA_H1_fast.next();
                 entryMA_H1_slow = (Map.Entry) iterMA_H1_slow.next();
-                //System.out.println(currentDateTime.toString());
-                //LocalDateTime date_h1 = (LocalDateTime) entryMA_H1_fast.getKey();
             }
 
             if( (counter % 96) == 95 ) {
                 entryMA_D1_fast = (Map.Entry) iterMA_D1_fast.next();
                 entryMA_D1_slow = (Map.Entry) iterMA_D1_slow.next();
-                //System.out.println(currentDateTime.toString());
-                //LocalDateTime date_d1 = (LocalDateTime) mapEntry_d1.getKey();
             }
 
 
@@ -279,11 +251,9 @@ public class Trader {
 
             // BuyPosition nyitásának logikája stratégia logikája (egyenlőséget egyelőre nem engedünk meg)
             if( d1_fast > d1_slow && h1_fast > h1_slow && oldM15_fast < oldM15_slow && m15_fast > m15_slow ) {
-                // if( oldM15_fast < oldM15_slow && m15_fast > m15_slow ) {
 
                 // Itt nyitnánk alapból pozíciót
-                // System.out.println("Buy");
-                Signals.put(currentDateTime, "Buy!");
+                signals.put(currentDateTime, "Buy!");
 
                 BuyPosition buyPos = new BuyPosition(currentDateTime, 1, currentPrice);
 
@@ -297,41 +267,12 @@ public class Trader {
             // BuyPosition zárásának logikája stratégia logikája (egyenlőséget egyelőre nem engedünk meg)
             if( d1_fast > d1_slow && oldH1_fast > oldH1_slow && h1_fast < h1_slow ) {
 
-                Signals.put(currentDateTime, "Close Buy Positions!");
+                signals.put(currentDateTime, "Close Buy Positions!");
 
                 // Itt zárjuk a nyitott long pozíciókat
                 myPortfolio.closeBuyPositions(currentDateTime, currentPrice);
 
             }
-
-
-            /*
-            // SellPosition nyitásának logikája stratégia logikája
-            if( d1_fast < d1_slow && h1_fast < h1_slow && oldM15_fast > oldM15_slow && m15_fast < m15_slow ) {
-
-                // Itt nyitnánk alapból pozíciót
-                // System.out.println("Sell");
-                Signals.put(currentDateTime, "Sell!");
-
-                SellPosition sellPos = new SellPosition(currentDateTime, 1, currentPrice);
-
-                myPortfolio.addPosition(sellPos);
-
-                crosses++;
-
-            }
-
-
-            // SellPosition zárásának logikája stratégia logikája (egyenlőséget egyelőre nem engedünk meg)
-            if( d1_fast < d1_slow && oldH1_fast < oldH1_slow && h1_fast > h1_slow ) {
-
-                Signals.put(currentDateTime, "Close Sell Positions!");
-
-                // Itt zárjuk a nyitott short pozíciókat
-                myPortfolio.closeSellPositions(currentDateTime, currentPrice);
-
-            }
-            */
 
             // Portfolio frissítése
             myPortfolio.updatePortfolio(currentDateTime, currentPrice);
@@ -349,9 +290,6 @@ public class Trader {
 
 
         }
-
-        //System.out.println(crosses);
-
     }
 
 

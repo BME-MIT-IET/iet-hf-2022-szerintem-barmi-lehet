@@ -35,7 +35,6 @@ public class StartGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            //Optimizer myOptimizer = new Optimizer(9, 29, 39, 69, 200, 201, "Simple");
 
             int i1 = Integer.parseInt(fastMA_min.getText());
             int i2 = Integer.parseInt(fastMA_max.getText());
@@ -84,7 +83,6 @@ public class StartGUI extends JFrame {
 
 
         button.addActionListener(new OkButtonActionListener());
-        // fastMA_max.setEditable(false);
 
 
         // JPanel -- GridBagLayout
@@ -126,7 +124,6 @@ public class StartGUI extends JFrame {
 
         // 2. sor
         JLabel row2Lab = new JLabel("Közepes MA periódus: ", SwingConstants.RIGHT);
-        //boolean shouldWeightX = true;
         if (shouldWeightX) {
             c.weightx = 1;
         }
@@ -151,7 +148,6 @@ public class StartGUI extends JFrame {
 
         // 3. sor
         JLabel row3Lab = new JLabel("Lassú MA periódus: ", SwingConstants.RIGHT);
-        //boolean shouldWeightX = true;
         if (shouldWeightX) {
             c.weightx = 1;
         }
@@ -176,14 +172,12 @@ public class StartGUI extends JFrame {
 
         // 4. sor
         JLabel row4Lab = new JLabel("MA típusa: ", SwingConstants.RIGHT);
-        //boolean shouldWeightX = true;
         if (shouldWeightX) {
             c.weightx = 0.0;
         }
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 3;
-        //c.anchor = GridBagConstraints.PAGE_END;
         pane.add(row4Lab, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -203,7 +197,6 @@ public class StartGUI extends JFrame {
         c.gridwidth = 1;
         c.gridx = 0;
         c.gridy = 4;
-        //c.anchor = GridBagConstraints.PAGE_END;
         pane.add(row5Lab, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
