@@ -189,6 +189,13 @@ public class Optimizer {
         return MAType;
     }
 
+
+    public Trader getBestTrader() {
+        return bestTrader;
+    }
+
+
+
 }
 
     /* Store the signals
