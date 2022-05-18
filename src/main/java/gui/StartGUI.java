@@ -23,10 +23,10 @@ public class StartGUI extends JFrame {
 
     private JButton button = new JButton("Optimize!");
 
-    private Object[] type_MA = {"Simple", "Exponential"};
+    private transient Object[] type_MA = {"Simple", "Exponential"};
     private JComboBox<Object> cbox_TypeMA = new JComboBox(type_MA);
 
-    private Object[] optimCond = {"Net profit", "Winning ratio"};
+    private transient Object[] optimCond = {"Net profit", "Winning ratio"};
     private JComboBox<Object> cbox_optimCond = new JComboBox(optimCond);
 
 
