@@ -52,7 +52,7 @@ public class ExponentialMA extends MovingAverage {
 
         double smoothParam = 2.0 / (this.windowSize + 1);
 
-        double newValue = 0.0;
+        double newValue;
         double priceValue;
 
 

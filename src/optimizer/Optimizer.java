@@ -61,7 +61,7 @@ public class Optimizer {
         try {
             pirceSeries= myReader.read(inputFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            
         }
 
     }
@@ -81,7 +81,7 @@ public class Optimizer {
                         this.candidateTraders.add(myTrader);
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
+                       
                     }
 
 
@@ -191,14 +191,6 @@ public class Optimizer {
 
 }
 
-    /* Store the signals
-        FileOutputStream f = new FileOutputStream("data/signals.txt");
-        ObjectOutputStream out = new ObjectOutputStream(f);
-        out.writeObject(Signals);
-        out.close();
-        */
-
-    /* Display content of price_data using Iterator */
 
 
 

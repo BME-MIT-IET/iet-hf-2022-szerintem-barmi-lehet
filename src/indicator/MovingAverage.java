@@ -21,7 +21,7 @@ public abstract class MovingAverage {
     // Methods
 
     // Default constructor
-    public MovingAverage() {}
+    protected MovingAverage() {}
 
 
     // GetValues
