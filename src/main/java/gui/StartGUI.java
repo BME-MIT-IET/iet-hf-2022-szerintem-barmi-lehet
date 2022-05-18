@@ -94,10 +94,7 @@ public class StartGUI extends JFrame {
 
         // 1. sor
         JLabel row1Lab = new JLabel("Gyors MA periódus: ", SwingConstants.RIGHT);
-        boolean shouldWeightX = true;
-        if (shouldWeightX) {
-            c.weightx = 2;
-        }
+        c.weightx = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
@@ -119,9 +116,7 @@ public class StartGUI extends JFrame {
 
         // 2. sor
         JLabel row2Lab = new JLabel("Közepes MA periódus: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 1;
-        }
+        c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
@@ -143,9 +138,7 @@ public class StartGUI extends JFrame {
 
         // 3. sor
         JLabel row3Lab = new JLabel("Lassú MA periódus: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 1;
-        }
+        c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
@@ -167,9 +160,7 @@ public class StartGUI extends JFrame {
 
         // 4. sor
         JLabel row4Lab = new JLabel("MA típusa: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 0.0;
-        }
+        c.weightx = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 3;
@@ -185,9 +176,7 @@ public class StartGUI extends JFrame {
 
         // 5. sor
         JLabel row5Lab = new JLabel("Optimalizálási kritérium: ", SwingConstants.RIGHT);
-        if (shouldWeightX) {
-            c.weightx = 0.0;
-        }
+        c.weightx = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 1;
         c.gridx = 0;
