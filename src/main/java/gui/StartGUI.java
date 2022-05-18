@@ -90,11 +90,6 @@ public class StartGUI extends JFrame {
         pane.setLayout(new GridBagLayout());
         
         GridBagConstraints c = new GridBagConstraints();
-        boolean shouldFill = false;
-        if (shouldFill) {
-            //natural height, maximum width
-            c.fill = GridBagConstraints.HORIZONTAL;
-        }
 
 
         // 1. sor
