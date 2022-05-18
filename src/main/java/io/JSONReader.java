@@ -15,7 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-public class JSONReader {
+public class JSONReader implements PriceDataReader {
 
     public JSONReader() {}
 

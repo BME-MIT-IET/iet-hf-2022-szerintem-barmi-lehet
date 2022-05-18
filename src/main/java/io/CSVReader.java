@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 
 
-public class CSVReader {
+public class CSVReader implements PriceDataReader {
 
     /// Attributes
 
