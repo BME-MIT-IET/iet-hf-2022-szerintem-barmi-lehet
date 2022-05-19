@@ -15,7 +15,7 @@ public class SimpleMATest {
 
     private TimeSeries priceSeries = new TimeSeries();
 
-    private CSVReader myReader = new CSVReader();
+    private CSVReader myReader = new CSVReader("data/EURUSD_15m_2010-2016_v2.csv");
 
     private SimpleMA mySMA = new SimpleMA(20);
 
@@ -23,7 +23,7 @@ public class SimpleMATest {
     @Before
     public void setUp() throws Exception {
 
-        priceSeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+        priceSeries = myReader.read();
 
     }
 

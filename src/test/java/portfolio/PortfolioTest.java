@@ -1,6 +1,7 @@
 package portfolio;
 
 import optimizer.Optimizer;
+import io.CSVReader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +22,9 @@ public class PortfolioTest {
     @Before
     public void setUp() throws Exception {
 
-        myOptimizer = new Optimizer(11, 11, 54, 54, 201, 201, "Simple");
+        myOptimizer = new Optimizer(11, 11, 54, 54, 201, 201, "Simple", new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
 
-        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer.importData();
 
         myOptimizer.initTraders();
 

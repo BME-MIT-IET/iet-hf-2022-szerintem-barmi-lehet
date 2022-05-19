@@ -17,7 +17,7 @@ public class TimeSeriesTest {
 
     private TimeSeries mySeries = new TimeSeries();
 
-    private CSVReader myReader = new CSVReader();
+    private CSVReader myReader = new CSVReader("data/EURUSD_15m_2010-2016_v2.csv");
 
 
     /// Methods
@@ -25,7 +25,7 @@ public class TimeSeriesTest {
     @Before
     public void setUp() throws Exception {
 
-        mySeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+        mySeries = myReader.read();
 
     }
 
