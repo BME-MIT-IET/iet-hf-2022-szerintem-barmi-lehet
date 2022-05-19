@@ -7,7 +7,7 @@ public class CSVReaderTest {
 
     @Test(expected = IOException.class)
     public void checkRead() throws Exception {
-        CSVReader myReader = new CSVReader();
-        myReader.read("abc.txt");
+        CSVReader myReader = new CSVReader("abc.txt");
+        myReader.read();
     }
 }
