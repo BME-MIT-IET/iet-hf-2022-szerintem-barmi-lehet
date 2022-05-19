@@ -4,7 +4,7 @@
 Program tesztelése más több, különböző formátumú adathalmazzal
 
 ### Részletes leírás
-    A program alapvetően kizárólag .csv fájlokból tudott adatot olvasni, ezért készítettem hozzá
+A program alapvetően kizárólag .csv fájlokból tudott adatot olvasni, ezért készítettem hozzá
     egy JSON formátumú input olvasására alkalmas osztályt. Emellett bevezettem egy közös absztrakt
     osztályt az új json olvasó és a már meglévő csv olvasó osztálynak, illetve megoldottam, hogy a
     program ne beégetve tartalmazza, hogy melyik osztályt és milyen fájlt használjon inputnak, 
@@ -16,7 +16,7 @@ Program tesztelése más több, különböző formátumú adathalmazzal
     a hiba, viszont az újonnan felvett json olvasó tesztelésekor használt adat esetében probléma volt. A hibát
     sikerült kijavítani, a program helyesen működik json formátummal is.
     
-    A hiba kijavítása után néhány inputtal teszteltük az eredeti adathalmazon és az új json adathalmazon is 
+A hiba kijavítása után néhány inputtal teszteltük az eredeti adathalmazon és az új json adathalmazon is 
     a programot néhány bemenettel.
 
 #### csv bemenet tesztelése (20,21), (50,50), (150, 150) paraméterekkel:
@@ -37,7 +37,7 @@ a program a profitot, szintén sikeresen.
 ![](csv_test_3.png)
 
 
-    A json bemenet tesztelésekor további problémákba ütköztünk amiatt, hogy az alkalmazásba
+A json bemenet tesztelésekor további problémákba ütköztünk amiatt, hogy az alkalmazásba
     mélyen bele volt égetve a minta csv adat használata, ezért további módosításokra volt 
     szükség a Trader osztály trade() függvényében. A függvénytörzs elején a program inicializált
     három dátum típusú változót, amelyek értéke erősen függ a bemeneti adathalmaztól. 
@@ -62,7 +62,7 @@ a profitot
 
 
 
-    A manuális tesztek alapján tanulságként azt szűrtük le a programról, hogy helyesen működik, ha
+A manuális tesztek alapján tanulságként azt szűrtük le a programról, hogy helyesen működik, ha
     sikerül elindítani és működésre bírni az általunk válaszott adathalmazzal, azonban elég rugalmatlan
     abból a szempontból, hogy milyen bemeneteket tud fogadni, mivel sokat kellett változtatni a kódon
     azért, hogy a saját, json formátumú adatunkon is tudjon dolgozni.
