@@ -13,17 +13,15 @@ public class TraderTest {
 
     TimeSeries testSeries;
 
-    String testData = "data/EURUSD_15m_2010-2016_v2.csv";
-
     @Before
     public void init() {
 
         //abcd
-        testReader = new CSVReader();
+        testReader = new CSVReader("data/EURUSD_15m_2010-2016_v2.csv");
         testSeries = new TimeSeries();
 
         try {
-            testSeries = testReader.read(testData);
+            testSeries = testReader.read();
         } catch (IOException e) {
 
         }

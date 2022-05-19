@@ -15,9 +15,10 @@ public class OptimizerTest {
     @Before
     public void init(){
 
-        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple",
+                new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
 
-        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer.importData();
 
         myOptimizer.initTraders();
 
