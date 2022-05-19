@@ -143,14 +143,18 @@ public class Trader {
 
     public void trade() {
 
+
         // LocalDateTime for M15
         LocalDateTime m15_startDate = LocalDateTime.of(2010, Month.JANUARY, 2, 3, 15, 00);
+        //LocalDateTime m15_startDate = LocalDateTime.of(2022, Month.MARCH, 9, 1, 45, 00);
 
         // LocalDateTime for H1 (M15 előtti teljes lezárt óra)
         LocalDateTime h1_startDate = LocalDateTime.of(2010, Month.JANUARY, 2, 2, 00, 00);
+        //LocalDateTime h1_startDate = LocalDateTime.of(2022, Month.MARCH, 9, 1, 00, 00);
 
         // LocalDateTime for D1 (M15 előtti teljes lezárt nap)
         LocalDateTime d1_startDate = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 00, 00);
+        //LocalDateTime d1_startDate = LocalDateTime.of(2022, Month.MARCH, 8, 0, 00, 00);
 
 
         // M15 idősíkon értelmezett iterátorok
