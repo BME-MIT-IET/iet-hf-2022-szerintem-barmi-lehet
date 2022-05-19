@@ -18,6 +18,7 @@ public class TraderTest {
     @Before
     public void init() {
 
+        //abcd
         testReader = new CSVReader();
         testSeries = new TimeSeries();
 
