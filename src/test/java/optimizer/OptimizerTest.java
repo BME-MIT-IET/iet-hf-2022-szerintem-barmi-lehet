@@ -15,28 +15,27 @@ public class OptimizerTest {
     @Before
     public void init(){
 
-        // myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
-
-    }
-
-
-    @Test
-    public void maxWRTest(){
-
-        // Arrange
-
-        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple", new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple",
+                new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
 
         myOptimizer.importData();
 
         myOptimizer.initTraders();
 
+    }
+
+
+    @Test
+    public void maxProfitTest(){
+
+        // Arrange
+
+
         // Act
-
-        myOptimizer.maxWR();
-
+        myOptimizer.maxProfit();
 
         // Assert
+
 
         Trader myBestTrader = myOptimizer.getBestTrader();
 
@@ -47,5 +46,56 @@ public class OptimizerTest {
         Assert.assertEquals(150, params[2]);
 
     }
+
+
+    @Test
+    public void maxProfitValueTest(){
+
+        // Arrange
+
+        // Act
+        myOptimizer.maxProfit();
+
+        // Assert
+        Assert.assertEquals(-2792, myOptimizer.getBestNetProfit(), 10e-2);
+
+    }
+
+
+    @Test
+    public void maxWRTest(){
+
+        // Arrange
+
+        // Act
+        myOptimizer.maxWR();
+
+        // Assert
+        Trader myBestTrader = myOptimizer.getBestTrader();
+
+        int[] params = myBestTrader.getParamValues();
+
+        Assert.assertEquals(21, params[0]);
+        Assert.assertEquals(50, params[1]);
+        Assert.assertEquals(150, params[2]);
+
+    }
+
+
+    @Test
+    public void maxWRValueTest(){
+
+        // Arrange
+
+        // Act
+        myOptimizer.maxWR();
+
+        // Assert
+        Assert.assertEquals(33.19, myOptimizer.getBestWR(), 10e-1);
+
+    }
+
+
+
 
 }
