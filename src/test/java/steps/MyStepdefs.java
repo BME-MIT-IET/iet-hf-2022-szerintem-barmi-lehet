@@ -1,56 +1,116 @@
 package steps;
 
+import indicator.ExponentialMA;
+import indicator.SimpleMA;
+import io.CSVReader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import optimizer.Optimizer;
+import org.junit.Assert;
+import trader.Trader;
+import tseries.TimeSeries;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 public class MyStepdefs {
-    @Given("The GUI window pops up")
-    public void theGUIWindowPopsUp() {
+    private TimeSeries priceSeries = new TimeSeries();
+
+    private CSVReader myReader = new CSVReader();
+
+    private SimpleMA mySMA = new SimpleMA(20);
+    private LocalDateTime testDate_01;
+
+    private ExponentialMA myEMA = new ExponentialMA(20);
+    private Optimizer myOptimizer;
+    private TimeSeries mySeries;
+    private TimeSeries newSeries;
+
+
+    @Given("The reader reads")
+    public void theReaderReads() throws IOException {
+        priceSeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
     }
 
-    @And("All numbers are set")
-    public void allNumbersAreSet() {
+    @When("Calculate simpleMa with given time")
+    public void calculateSimpleMaWithGivenTime() {
+        mySMA.calc(priceSeries, "Close");
+        testDate_01 = LocalDateTime.of(2010, Month.JANUARY, 1, 4, 45, 00);
     }
 
-    @And("User selects {string}")
-    public void userSelects(String arg0) {
+    @Then("Calculated simple value equals expected")
+    public void calculatedSimpleValueEqualsExpected() {
+        Assert.assertEquals(1.432722, mySMA.getValues().get(testDate_01), 0.000001);
     }
 
-    @And("User selects type {string}")
-    public void userSelectsType(String arg0) {
+    @When("Calculate exponentialMa with given time")
+    public void calculateExponentialMaWithGivenTime() {
+        myEMA.calc(priceSeries, "Close");
+        testDate_01 = LocalDateTime.of(2010, Month.JANUARY, 1, 7, 30, 00);
     }
 
-    @When("User clicks the Optimize! button")
-    public void userClicksTheOptimizeButton() {
+    @Then("Calculated exponential value equals expected")
+    public void calculatedExponentialValueEqualsExpected() {
+        Assert.assertEquals(1.432941, myEMA.getValues().get(testDate_01), 0.000001);
     }
 
-    @Then("The procedure starts with option {string} and type {string} in mind")
-    public void theProcedureStartsWithOptionAndTypeInMind(String arg0, String arg1) {
+    @Given("Optimizer with parameters")
+    public void optimizerWithParameters() {
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
+        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer.initTraders();
     }
 
-    @And("The user selects {string}")
-    public void theUserSelects(String arg0) {
+    @When("Optimizer calculates max winning rate")
+    public void optimizerCalculatesMaxWinningRate() {
+        myOptimizer.maxWR();
     }
 
-    @And("The user selects type {string}")
-    public void theUserSelectsType(String arg0) {
+    @Then("Best win rate equals expected amount")
+    public void bestWinRateEqualsExpectedAmount() {
+        Trader myBestTrader = myOptimizer.getBestTrader();
+        int[] params = myBestTrader.getParamValues();
+        Assert.assertEquals(21, params[0]);
+        Assert.assertEquals(50, params[1]);
+        Assert.assertEquals(150, params[2]);
+
     }
 
-    @When("User writes numbers in all fields")
-    public void userWritesNumbersInAllFields() {
+    @Given("An Optimizer")
+    public void anOptimizer() {
+        myOptimizer = new Optimizer(11, 11, 54, 54, 201, 201, "Simple");
+        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
     }
 
-    @Then("The required numbers are set")
-    public void theRequiredNumbersAreSet() {
+    @When("Optimizer works")
+    public void optimizerWorks() {
+        myOptimizer.initTraders();
+        myOptimizer.maxProfit();
     }
 
-    @Then("Type {string} will be set")
-    public void typeWillBeSet(String arg0) {
+    @Then("Net profit equals expected amount")
+    public void netProfitEqualsExpectedAmount() {
+        Assert.assertEquals(myOptimizer.getBestNetProfit(), 73056, 0.1);
     }
 
-    @Then("Option {string} will be set")
-    public void optionWillBeSet(String arg0) {
+    @Given("A TimeSeries Object")
+    public void aTimeSeriesObject() throws IOException {
+        mySeries = new TimeSeries();
+        mySeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+    }
+
+    @When("The Series object converts")
+    public void theSeriesObjectConverts() {
+        newSeries = mySeries.convert("H1");
+        testDate_01 = LocalDateTime.of(2010, Month.JANUARY, 4, 4, 00, 00);
+        Assert.assertEquals(1.42889, newSeries.getValues().get(testDate_01).getClose(), 0.01);
+    }
+
+    @Then("Converted value equals expected")
+    public void convertedValueEqualsExpected() {
+        Assert.assertEquals(1.42889, newSeries.getValues().get(testDate_01).getClose(), 0.01);
     }
 }
