@@ -15,11 +15,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-public class JSONReader implements PriceDataReader {
+public class JSONReader extends PriceDataReader {
 
-    public JSONReader() {}
+    public JSONReader(String file) {
+        super(file);
+    }
 
-    public TimeSeries read(String inputJSON) throws IOException {
+    public TimeSeries read() throws IOException {
 
         JSONParser jsonParser = new JSONParser();
         TimeSeries tseries = new TimeSeries();
@@ -27,7 +29,7 @@ public class JSONReader implements PriceDataReader {
 
         try {
 
-            JSONObject input = (JSONObject) jsonParser.parse(new FileReader(inputJSON));
+            JSONObject input = (JSONObject) jsonParser.parse(new FileReader(filePath));
 
             JSONArray jsonArray = (JSONArray) input.get("candles");
 

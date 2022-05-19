@@ -34,11 +34,13 @@ public class Optimizer {
 
     private Trader bestTrader = new Trader();
 
+    private PriceDataReader myReader;
+
 
 
     /// Methods
 
-    public Optimizer(int fastMin, int fastMax, int MidMin, int MidMax, int SlowMin, int SlowMax, String str) {
+    public Optimizer(int fastMin, int fastMax, int MidMin, int MidMax, int SlowMin, int SlowMax, String str, PriceDataReader myReader) {
 
         this.fastMAParams = IntStream.range(fastMin, (fastMax + 1)).toArray();
         System.out.println("Fast MA Params: " + Arrays.toString(this.fastMAParams));
@@ -51,17 +53,17 @@ public class Optimizer {
 
         this.MAType = str;
 
+        this.myReader = myReader;
     }
 
 
-    public void importData(String inputFile) {
+    public void importData() {
 
-        PriceDataReader myReader = new JSONReader();
 
         this.pirceSeries = new TimeSeries();
 
         try {
-            pirceSeries= myReader.read(inputFile);
+            pirceSeries= myReader.read();
         } catch (IOException e) {
             
         }

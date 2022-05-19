@@ -4,6 +4,11 @@ import tseries.TimeSeries;
 
 import java.io.IOException;
 
-public interface PriceDataReader {
-    public TimeSeries read (String fileName) throws IOException;
+public abstract class PriceDataReader {
+    protected String filePath;
+
+    PriceDataReader(String file) {
+        this.filePath = file;
+    }
+    public abstract TimeSeries read() throws IOException;
 }
