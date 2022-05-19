@@ -14,7 +14,8 @@ A program alapvetően kizárólag .csv fájlokból tudott adatot olvasni, ezért
     inputtól eltérő bemenetre hibát dobott és leállt. Az eredeti adathalmaz esetében a 15 perces tőzsdei 
     gyertya záró dátuma éppen egybe esett a napi gyertya záró dátumával, ezért iebben az esetben nem jelentkezett
     a hiba, viszont az újonnan felvett json olvasó tesztelésekor használt adat esetében probléma volt. A hibát
-    sikerült kijavítani, a program helyesen működik json formátummal is.
+    sikerült kijavítani, a program helyesen működik json formátummal is, bár nem teljesen rugalmasan, az kódot több helyen
+    kell ehhez módosítani (annak ellenére, hogy megpróbáltunk DI alkalmazásával és egyéb refaktorálási lépésekkel javítani a helyzeten).
     
 A hiba kijavítása után néhány inputtal teszteltük az eredeti adathalmazon és az új json adathalmazon is 
     a programot néhány bemenettel.
