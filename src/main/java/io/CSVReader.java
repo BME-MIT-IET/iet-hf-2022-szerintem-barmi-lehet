@@ -14,20 +14,22 @@ import java.time.LocalDateTime;
 
 
 
-public class CSVReader {
+public class CSVReader extends PriceDataReader {
 
     /// Attributes
 
 
 
     /// Methods
-    public CSVReader() {}
+    public CSVReader(String file) {
+        super(file);
+    }
 
 
     //public Treemap<K, V> HashSet jobb lenne?
     // throws Exception
 
-    public TimeSeries read(String inputCSV) throws IOException {
+    public TimeSeries read() throws IOException {
 
         // String csvFile = "data/EURUSD_15m_2010-2016_v2.csv";
         // String csvFile = "data/EURUSD_15m_2010-2016_v5.csv";
@@ -40,7 +42,7 @@ public class CSVReader {
 
         TreeMap<LocalDateTime, Price> tmap = new TreeMap<>();
 
-        FileReader fr = new FileReader(inputCSV);
+        FileReader fr = new FileReader(filePath);
         BufferedReader br = new BufferedReader(fr);
 
 

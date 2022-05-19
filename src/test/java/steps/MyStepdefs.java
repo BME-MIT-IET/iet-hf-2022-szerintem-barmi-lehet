@@ -19,7 +19,7 @@ import java.time.Month;
 public class MyStepdefs {
     private TimeSeries priceSeries = new TimeSeries();
 
-    private CSVReader myReader = new CSVReader();
+    private CSVReader myReader = new CSVReader("data/EURUSD_15m_2010-2016_v2.csv");
 
     private SimpleMA mySMA = new SimpleMA(20);
     private LocalDateTime testDate_01;
@@ -32,7 +32,7 @@ public class MyStepdefs {
 
     @Given("The reader reads")
     public void theReaderReads() throws IOException {
-        priceSeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+        priceSeries = myReader.read();
     }
 
     @When("Calculate simpleMa with given time")
@@ -59,8 +59,8 @@ public class MyStepdefs {
 
     @Given("Optimizer with parameters")
     public void optimizerWithParameters() {
-        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
-        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple", new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
+        myOptimizer.importData();
         myOptimizer.initTraders();
     }
 
@@ -81,8 +81,8 @@ public class MyStepdefs {
 
     @Given("An Optimizer")
     public void anOptimizer() {
-        myOptimizer = new Optimizer(11, 11, 54, 54, 201, 201, "Simple");
-        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer = new Optimizer(11, 11, 54, 54, 201, 201, "Simple", new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
+        myOptimizer.importData();
     }
 
     @When("Optimizer works")
@@ -99,7 +99,7 @@ public class MyStepdefs {
     @Given("A TimeSeries Object")
     public void aTimeSeriesObject() throws IOException {
         mySeries = new TimeSeries();
-        mySeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+        mySeries = myReader.read();
     }
 
     @When("The Series object converts")
