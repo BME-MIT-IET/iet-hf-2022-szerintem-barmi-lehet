@@ -47,4 +47,29 @@ public class OptimizerTest {
 
     }
 
+
+    @Test
+    public void maxWRValueTest(){
+
+        // Arrange
+
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
+
+        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+
+        myOptimizer.initTraders();
+
+
+        // Act
+
+        myOptimizer.maxWR();
+
+
+        // Assert
+
+        Assert.assertEquals(33.19, myOptimizer.getBestWR(), 10e-1);
+
+    }
+
+
 }
