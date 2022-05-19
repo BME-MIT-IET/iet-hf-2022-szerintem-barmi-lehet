@@ -47,8 +47,8 @@ public class StartGUI extends JFrame {
             int i5 = Integer.parseInt(slowMA_min.getText());
             int i6 = Integer.parseInt(slowMA_max.getText());
 
-            //Optimizer myOptimizer = new Optimizer(i1, i2, i3, i4, i5, i6, (String) cbox_TypeMA.getSelectedItem(), new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
-            Optimizer myOptimizer = new Optimizer(i1, i2, i3, i4, i5, i6, (String) cbox_TypeMA.getSelectedItem(), new JSONReader("data/jsonInput_M15.json"));
+            Optimizer myOptimizer = new Optimizer(i1, i2, i3, i4, i5, i6, (String) cbox_TypeMA.getSelectedItem(), new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
+            //Optimizer myOptimizer = new Optimizer(i1, i2, i3, i4, i5, i6, (String) cbox_TypeMA.getSelectedItem(), new JSONReader("data/jsonInput_M15.json"));
 
             //myOptimizer.importData();
             myOptimizer.importData();
