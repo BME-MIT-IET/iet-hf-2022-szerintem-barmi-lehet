@@ -1,5 +1,6 @@
 package optimizer;
 
+import io.CSVReader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +25,9 @@ public class OptimizerTest {
 
         // Arrange
 
-        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple");
+        myOptimizer = new Optimizer(20,21, 50,50,150,150, "Simple", new CSVReader("data/EURUSD_15m_2010-2016_v2.csv"));
 
-        myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+        myOptimizer.importData();
 
         myOptimizer.initTraders();
 
