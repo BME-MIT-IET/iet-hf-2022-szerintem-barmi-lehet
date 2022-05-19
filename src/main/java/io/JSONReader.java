@@ -26,9 +26,12 @@ public class JSONReader implements PriceDataReader {
         TreeMap<LocalDateTime, Price> tmap = new TreeMap<>();
 
         try {
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(inputJSON));
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss'.000000000Z'", Locale.US);
+            JSONObject input = (JSONObject) jsonParser.parse(new FileReader(inputJSON));
+
+            JSONArray jsonArray = (JSONArray) input.get("candles");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'.000000000Z'", Locale.US);
 
             for (int i = 0; i < jsonArray.size(); i++) {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);

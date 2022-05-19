@@ -1,6 +1,8 @@
 package optimizer;
 
 import io.CSVReader;
+import io.JSONReader;
+import io.PriceDataReader;
 import trader.Trader;
 import tseries.TimeSeries;
 
@@ -54,7 +56,7 @@ public class Optimizer {
 
     public void importData(String inputFile) {
 
-        CSVReader myReader = new CSVReader();
+        PriceDataReader myReader = new JSONReader();
 
         this.pirceSeries = new TimeSeries();
 

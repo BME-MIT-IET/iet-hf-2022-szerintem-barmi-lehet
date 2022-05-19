@@ -214,7 +214,7 @@ public class Trader {
         double oldH1_slow = 0.01; //
 
 
-        while(iterMA_M15_fast.hasNext()) {
+        while(iterMA_D1_fast.hasNext()) {   //IMPORTANT BUGFIX HERE
 
 
             currentDateTime = (LocalDateTime) entryMA_M15_fast.getKey();

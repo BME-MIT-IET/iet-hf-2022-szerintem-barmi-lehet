@@ -48,7 +48,8 @@ public class StartGUI extends JFrame {
 
             Optimizer myOptimizer = new Optimizer(i1, i2, i3, i4, i5, i6, (String) cbox_TypeMA.getSelectedItem());
 
-            myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+            //myOptimizer.importData("data/EURUSD_15m_2010-2016_v2.csv");
+            myOptimizer.importData("data/jsonInput_M15.json");
 
             myOptimizer.initTraders();
 
