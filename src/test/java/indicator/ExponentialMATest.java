@@ -17,7 +17,7 @@ public class ExponentialMATest {
 
     private TimeSeries priceSeries = new TimeSeries();
 
-    private CSVReader myReader = new CSVReader();
+    private CSVReader myReader = new CSVReader("data/EURUSD_15m_2010-2016_v2.csv");
 
     private ExponentialMA myEMA = new ExponentialMA(20);
 
@@ -28,7 +28,7 @@ public class ExponentialMATest {
     @Before
     public void setUp() throws Exception {
 
-        priceSeries = myReader.read("data/EURUSD_15m_2010-2016_v2.csv");
+        priceSeries = myReader.read();
 
     }
 

@@ -1,5 +1,6 @@
 package optimizer;
 
+import io.CSVReader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +29,12 @@ public class OptimizerTest {
 
         // Arrange
 
+
         // Act
         myOptimizer.maxProfit();
 
         // Assert
+
 
         Trader myBestTrader = myOptimizer.getBestTrader();
 
